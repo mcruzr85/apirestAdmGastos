@@ -1,22 +1,22 @@
 package com.javaupskilling.gastosapp.dao.dto;
 
 public class CategoriaDto {
-    private int id;
+    private Long id;
     private String nombre;
 
     public CategoriaDto() {
     }
 
-    public CategoriaDto(int id, String nombre) {
+    public CategoriaDto(Long id, String nombre) {
         this.id = id;
         this.nombre = nombre;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

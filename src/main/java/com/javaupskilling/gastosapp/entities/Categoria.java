@@ -1,13 +1,13 @@
 package com.javaupskilling.gastosapp.entities;
 
 public class Categoria {
-   private int id;
+   private Long id;
     private String nombre;
 
     public Categoria() {
     }
 
-    public Categoria(int id, String nombre) {
+    public Categoria(Long id, String nombre) {
 
         this.id = id;
         this.nombre = nombre;
@@ -15,10 +15,13 @@ public class Categoria {
 
 
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getNombre() {
         return nombre;

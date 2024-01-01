@@ -2,12 +2,23 @@ package com.javaupskilling.gastosapp.entities;
 
 public class Gasto {
     //incrementa el contador cada vez que se crea una instancia de GastoReal
-    public static Integer contador = 1;
-    private int id;
+    private Integer id;
     private Integer categoriaId;
-    private double valor;
+    private String categoriaNombre;
+    private Double valor;
     private String fecha;
     private String descripcion;//el profe no tiene esto
+
+    public Gasto(){
+    }
+
+    public Gasto(Integer categoriaId, String categoriaNombre, Double valor, String fecha, String descripcion) {
+        this.categoriaId = categoriaId;
+        this.categoriaNombre = categoriaNombre;
+        this.valor = valor;
+        this.fecha = fecha;
+        this.descripcion = descripcion;
+    }//constructor sin el id
 
     public int getId() {
         return id;
@@ -17,25 +28,8 @@ public class Gasto {
         this.id = id;
     }
 
-    //incrementa el contador cada vez que se crea una instancia de Gasto
-    public Gasto(){
-    }
-
-
-
-    public Gasto( Integer categoriaId,String descripcion, double valor,  String fecha) {
-        this.categoriaId = categoriaId;
-        this.descripcion = descripcion;
-        this.valor = valor;
-        this.fecha = fecha;
-    }
-
     public void setValor(double valor) {
         this.valor = valor;
-    }
-
-    public static int getContador() {
-        return contador;
     }
 
     public double getValor() {
@@ -66,18 +60,12 @@ public class Gasto {
         this.categoriaId = categoriaId;
     }
 
-    public String getGastoDescripcion(){
-        return getDescripcion() + " por un valor de " + getValor() + " realizado " + getFecha();
+    public String getCategoriaNombre() {
+        return categoriaNombre;
     }
 
-    @Override
-    public String toString() {
-        return "Gasto{" +
-                "id=" + id +
-                ", categoria=" + categoriaId +
-                ", valor=" + valor +
-                ", fecha='" + fecha + '\'' +
-                ", descripcion='" + descripcion + '\'' +
-                '}';
+    public void setCategoriaNombre(String categoriaNombre) {
+        this.categoriaNombre = categoriaNombre;
     }
+
 }

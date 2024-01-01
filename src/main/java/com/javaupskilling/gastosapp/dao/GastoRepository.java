@@ -1,23 +1,24 @@
 package com.javaupskilling.gastosapp.dao;
 
 import com.javaupskilling.gastosapp.dao.dto.GastoDto;
+import com.javaupskilling.gastosapp.entities.Gasto;
 import com.javaupskilling.gastosapp.exceptions.DAOException;
 
 import java.util.List;
 
 
 
-public interface GastoDao {
+public interface GastoRepository {
 
         //CRUD
         //CREATE
-        void insert(GastoDto gastoDto);
+        void insert(Gasto gasto) throws DAOException;
 
         //READ
         List<GastoDto> getAll() throws DAOException;
 
         //UPDATE
-        void update(GastoDto gastoDto);
+        void update(GastoDto gastoDto) throws DAOException;
 
         //DELETE
 

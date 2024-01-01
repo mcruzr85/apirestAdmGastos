@@ -1,11 +1,15 @@
 package com.javaupskilling.gastosapp.dao.impl;
 
-import com.javaupskilling.gastosapp.dao.GastoDao;
+import com.javaupskilling.gastosapp.dao.GastoRepository;
 import com.javaupskilling.gastosapp.dao.dto.GastoDto;
+import com.javaupskilling.gastosapp.entities.Categoria;
 import com.javaupskilling.gastosapp.entities.Gasto;
 import com.javaupskilling.gastosapp.exceptions.DAOException;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 
+import javax.swing.tree.RowMapper;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,51 +17,38 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Connection;
 
-public class GastoDaoImplH2 implements GastoDao {
+@Repository
+public class GastoRepositoryImplH2 implements GastoRepository {
 
-    private static final String INSERT_INTO_EXPENSE = "INSERT INTO expense (description, amount, date, id_category) VALUES (?, ?, ?, ?)";
+    private static final String INSERT_INTO_EXPENSE = "INSERT INTO expense (description, amount, date, category_id) VALUES (?, ?, ?, ?)";
     private static final String GET_ALL_EXPENSES = "SELECT * FROM expense";
-    private static final String GET_EXPENSE_BY_ID = "SELECT * FROM expense WHERE id_exp = ?";
-    private static final String UPDATE_EXPENSE = "UPDATE expense SET amount = ?, id_category =?, date = ? WHERE id_exp = ? ";
-    private static final String DELET_EXPENSE = "DELETE FROM expense WHERE id_exp = ?";
-
+    private static final String GET_EXPENSE_BY_ID = "SELECT * FROM expense WHERE id = ?";
+    private static final String UPDATE_EXPENSE = "UPDATE expense SET amount = ?, category_id =?, date = ? WHERE id = ? ";
+    private static final String DELET_EXPENSE = "DELETE FROM expense WHERE id = ?";
+    private static final String INSERT_INTO_CATEGORY_EXPENSE = "INSERT INTO ExpenseCategory (name) VALUES (?)";
+    private static final String SELECT_FROM_EXPENSE_CATEGORY_BY_NAME = "SELECT * FROM ExpenseCategory WHERE name = ?";
 
 
     //generando una instancia de conexion que tiene que ser provista por otro obj
-    private final Connection connection; //esto es una dependencia
+    private final JdbcTemplate jdbcTemplate;
 
-
-    //inicializo la conexion en el constructor
-    //cuando yo le pase una  conexion por constructor a mi clase voy a tener disponible una
-    // instancia de esa conexion para poder usarla
-    public GastoDaoImplH2(Connection connection){
-
-        this.connection = connection;
+    public GastoRepositoryImplH2(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
-    public void insert(GastoDto gastoDto) {
-        try( PreparedStatement ps = connection.prepareStatement(INSERT_INTO_EXPENSE)){
+    public void insert(Gasto gasto) throws  DAOException{
+        jdbcTemplate.update(INSERT_INTO_CATEGORY_EXPENSE, gasto.getCategoriaNombre().toLowerCase());
+        Object[] params = {gasto.getCategoriaNombre()};
+        int[] types = {1};
+        jdbcTemplate.queryForObject(SELECT_FROM_EXPENSE_CATEGORY_BY_NAME, params, types, new ExpenseCategoryRowMaper());
 
-            //mapeo a una entidad y manipulo la entidad hacia la bd
-            Gasto gasto = mapDtoToGasto(gastoDto);
+    }//mapear cada campo recuperado de la bd con la prop que corresponden a la entidad
+    //el rs mapeado a las props
 
-            ps.setString(1, gasto.getDescripcion());
-            ps.setDouble(2, gasto.getValor());
-            ps.setString(3, gasto.getFecha());
-            ps.setInt(4, gasto.getCategoriaId());
 
-            int affectedRows = ps.executeUpdate();
 
-            if(affectedRows == 0){
-                throw new DAOException("Error al insertar el gasto, 0 filas afectadas");
-            }
 
-        }catch (SQLException | DAOException e ){
-            throw new RuntimeException(e);
-        }
-
-    }
 
     @Override
     public List<GastoDto> getAll() throws DAOException {
@@ -161,4 +152,13 @@ private GastoDto mapResultSetToGastoDto(ResultSet rs) throws SQLException {
 
         return newGastoDto;//retorno mi objeto gastoDto ya con todos los valores incorporados
    }
+}
+static class ExpenseCategoryRowMapper implements RowMapper<Categoria>{
+    @Override
+    public Categoria mapRow(ResultSet rs, int rowNum) throws SQLException{
+        Categoria categoria = new Categoria();
+        categoria.setId(rs.getLong("id"));
+        categoria.setNombre(rs.getString("name"));
+        return categoria;
+    }
 }
