@@ -12,7 +12,7 @@ public interface GastoRepository {
 
         //CRUD
         //CREATE
-        void insert(Gasto gasto) throws DAOException;
+        Integer insert(Gasto gasto) throws DAOException;
 
         //READ
         List<GastoDto> getAll() throws DAOException;

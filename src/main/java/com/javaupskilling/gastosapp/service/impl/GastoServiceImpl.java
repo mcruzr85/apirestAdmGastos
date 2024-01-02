@@ -19,11 +19,17 @@ public class GastoServiceImpl implements GastoService {
 
     @Override
     public String createGasto(GastoRequestDto gastoRequestDto) throws DAOException {
-        String response = "Se registró el gasto con exito";
 
+        String response = "Se registró el gasto con exito";
         Gasto gasto = mapRequestDtoToGasto(gastoRequestDto);
-        gastoRepository.insert(gasto);
-        return null;
+
+        Integer responseInserted = gastoRepository.insert(gasto);
+
+        if(responseInserted.equals(0)){
+            System.out.println("No se insertó el gasto");
+        }
+
+        return response;
     }
 
     private Gasto mapRequestDtoToGasto(GastoRequestDto gastoRequestDto) {

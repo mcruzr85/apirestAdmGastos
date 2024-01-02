@@ -1,6 +1,7 @@
 package com.javaupskilling.gastosapp.controller;
 
 import com.javaupskilling.gastosapp.dto.request.GastoRequestDto;
+import com.javaupskilling.gastosapp.exceptions.DAOException;
 import com.javaupskilling.gastosapp.service.GastoService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,13 +16,13 @@ public class GastoController {
 
     private final GastoService gastoService; //servicio
 
-    public GastoController(GastoService gastoService) { //se pasa el obj servicio x constructor
+    public GastoController(GastoService gastoService) { //inyeccion de dependencia del obj servicio x constructor
         this.gastoService = gastoService;
     }
 
     @PostMapping //peticion de tipo post a la url de arriba
-    public ResponseEntity<String> createGastoHandler(@RequestBody GastoRequestDto gastoRequestDto) {
-        //devuelve obj de Spring que nos permite devolver entidades como respuesta d elos endpoints
+    public ResponseEntity<String> createGastoHandler(@RequestBody GastoRequestDto gastoRequestDto) throws DAOException {
+        //devuelve obj de Spring que nos permite devolver entidades como respuesta de los endpoints
 
         String response = gastoService.createGasto(gastoRequestDto);
         return null;

@@ -20,31 +20,36 @@ import java.sql.Connection;
 @Repository
 public class GastoRepositoryImplH2 implements GastoRepository {
 
-    private static final String INSERT_INTO_EXPENSE = "INSERT INTO expense (description, amount, date, category_id) VALUES (?, ?, ?, ?)";
-    private static final String GET_ALL_EXPENSES = "SELECT * FROM expense";
-    private static final String GET_EXPENSE_BY_ID = "SELECT * FROM expense WHERE id = ?";
-    private static final String UPDATE_EXPENSE = "UPDATE expense SET amount = ?, category_id =?, date = ? WHERE id = ? ";
-    private static final String DELET_EXPENSE = "DELETE FROM expense WHERE id = ?";
+    private static final String INSERT_INTO_EXPENSE = "INSERT INTO Expense (description, amount, date, category_id) VALUES (?, ?, ?, ?)";
+    private static final String GET_ALL_EXPENSES = "SELECT * FROM Expense";
+    private static final String GET_EXPENSE_BY_ID = "SELECT * FROM Expense WHERE id = ?";
+    private static final String UPDATE_EXPENSE = "UPDATE Expense SET amount = ?, category_id =?, date = ? WHERE id = ? ";
+    private static final String DELET_EXPENSE = "DELETE FROM Expense WHERE id = ?";
     private static final String INSERT_INTO_CATEGORY_EXPENSE = "INSERT INTO ExpenseCategory (name) VALUES (?)";
     private static final String SELECT_FROM_EXPENSE_CATEGORY_BY_NAME = "SELECT * FROM ExpenseCategory WHERE name = ?";
 
 
     //generando una instancia de conexion que tiene que ser provista por otro obj
-    private final JdbcTemplate jdbcTemplate;
+   private final JdbcTemplate jdbcTemplate;
 
     public GastoRepositoryImplH2(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
-    public void insert(Gasto gasto) throws  DAOException{
+    public Integer insert(Gasto gasto) throws  DAOException{
         jdbcTemplate.update(INSERT_INTO_CATEGORY_EXPENSE, gasto.getCategoriaNombre().toLowerCase());
         Object[] params = {gasto.getCategoriaNombre()};
         int[] types = {1};
-        jdbcTemplate.queryForObject(SELECT_FROM_EXPENSE_CATEGORY_BY_NAME, params, types, new ExpenseCategoryRowMaper());
+       Categoria categoria = jdbcTemplate.queryForObject(
+               SELECT_FROM_EXPENSE_CATEGORY_BY_NAME,
+               params, types,
+               new ExpenseCategoryRowMaper());
+       return jdbcTemplate.update(INSERT_INTO_EXPENSE, gasto.getDescripcion(), gasto.getValor(),
+               gasto.getFecha(),categoria.getId());
+       //update devuelve un entero
 
-    }//mapear cada campo recuperado de la bd con la prop que corresponden a la entidad
-    //el rs mapeado a las props
+    }
 
 
 
@@ -153,9 +158,13 @@ private GastoDto mapResultSetToGastoDto(ResultSet rs) throws SQLException {
         return newGastoDto;//retorno mi objeto gastoDto ya con todos los valores incorporados
    }
 }
+
+
 static class ExpenseCategoryRowMapper implements RowMapper<Categoria>{
     @Override
     public Categoria mapRow(ResultSet rs, int rowNum) throws SQLException{
+        //Para mapear cada campo recuperado de la bd con la prop que corresponden a la entidad
+        //el rs mapeado a las props
         Categoria categoria = new Categoria();
         categoria.setId(rs.getLong("id"));
         categoria.setNombre(rs.getString("name"));
