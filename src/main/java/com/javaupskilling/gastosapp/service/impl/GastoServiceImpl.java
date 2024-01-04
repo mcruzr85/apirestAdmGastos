@@ -13,6 +13,7 @@ public class GastoServiceImpl implements GastoService {
     private final GastoRepository gastoRepository;
 
     public GastoServiceImpl(GastoRepository gastoRepository) {
+
         this.gastoRepository = gastoRepository;
     }
 
@@ -43,3 +44,5 @@ public class GastoServiceImpl implements GastoService {
         return gasto;
     }
 }
+//el servicio se encarga de inyectar el Repositorio, se encarga de la logica o sea del mapeo del RequestDto
+//a la entidad que vamos a pasar al Repositorio o capa de acceso a Datos

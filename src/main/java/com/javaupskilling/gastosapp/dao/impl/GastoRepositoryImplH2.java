@@ -1,10 +1,11 @@
 package com.javaupskilling.gastosapp.dao.impl;
 
 import com.javaupskilling.gastosapp.dao.GastoRepository;
-import com.javaupskilling.gastosapp.dao.dto.GastoDto;
+
 import com.javaupskilling.gastosapp.entities.Categoria;
 import com.javaupskilling.gastosapp.entities.Gasto;
 import com.javaupskilling.gastosapp.exceptions.DAOException;
+
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
@@ -33,6 +34,7 @@ public class GastoRepositoryImplH2 implements GastoRepository {
    private final JdbcTemplate jdbcTemplate;
 
     public GastoRepositoryImplH2(JdbcTemplate jdbcTemplate) {
+
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -45,15 +47,17 @@ public class GastoRepositoryImplH2 implements GastoRepository {
                SELECT_FROM_EXPENSE_CATEGORY_BY_NAME,
                params, types,
                new ExpenseCategoryRowMaper());
-       return jdbcTemplate.update(INSERT_INTO_EXPENSE, gasto.getDescripcion(), gasto.getValor(),
-               gasto.getFecha(),categoria.getId());
-       //update devuelve un entero
-
+       return jdbcTemplate.update(INSERT_INTO_EXPENSE,
+               gasto.getDescripcion(),
+               gasto.getValor(),
+               gasto.getFecha(),
+               categoria.getId());
+       //update devuelve un entero con la cantidad de filas afectadas
     }
 
 
 
-
+/*
 
     @Override
     public List<GastoDto> getAll() throws DAOException {
@@ -134,33 +138,8 @@ public class GastoRepositoryImplH2 implements GastoRepository {
         }catch(SQLException e){
             throw new DAOException("Error al obtener un asto dado un Id", e);
         }
-    }
-
-    private Gasto mapDtoToGasto(GastoDto gastoDto){
-    Gasto newGasto = new Gasto();
-    newGasto.setCategoriaId(gastoDto.getCategoriaId());
-    newGasto.setDescripcion(gastoDto.getDescripcion());
-    newGasto.setFecha(gastoDto.getFecha());
-    newGasto.setValor(gastoDto.getValor());
-    return newGasto;
-}
-
-private GastoDto mapResultSetToGastoDto(ResultSet rs) throws SQLException {
-        //creo un objeto gastodto
-    GastoDto newGastoDto = new GastoDto();
-    //obtengo el dato del result set dado el nombre de la columna en la base de datos y lo agrego a mi objeto de gastosdto
-        newGastoDto.setId(rs.getInt("id_exp"));
-        newGastoDto.setDescripcion(rs.getString("description"));
-        newGastoDto.setValor(rs.getDouble("amount"));
-        newGastoDto.setFecha(rs.getString("date"));
-        newGastoDto.setCategoriaId(rs.getInt("id_category"));
-
-        return newGastoDto;//retorno mi objeto gastoDto ya con todos los valores incorporados
-   }
-}
-
-
-static class ExpenseCategoryRowMapper implements RowMapper<Categoria>{
+    }*/
+static class CategoryRowMapper implements RowMapper<Categoria>{
     @Override
     public Categoria mapRow(ResultSet rs, int rowNum) throws SQLException{
         //Para mapear cada campo recuperado de la bd con la prop que corresponden a la entidad
@@ -171,3 +150,11 @@ static class ExpenseCategoryRowMapper implements RowMapper<Categoria>{
         return categoria;
     }
 }
+}
+
+
+
+//Se encarga de hacer el insert en la BD
+//Insertamos una caregoria
+//recuperamos esa categosia por el nombre
+//para poder insertar el gasto junto con el id de la categoria

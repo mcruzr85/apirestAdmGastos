@@ -15,14 +15,14 @@ public interface GastoRepository {
         Integer insert(Gasto gasto) throws DAOException;
 
         //READ
-        List<GastoDto> getAll() throws DAOException;
+       // List<GastoDto> getAll() throws DAOException;
 
         //UPDATE
-        void update(GastoDto gastoDto) throws DAOException;
+      //  void update(GastoDto gastoDto) throws DAOException;
 
         //DELETE
 
-        void delete(int id);
-        GastoDto getById(int id) throws DAOException;
+     //   void delete(int id);
+       // GastoDto getById(int id) throws DAOException;
 
     }
