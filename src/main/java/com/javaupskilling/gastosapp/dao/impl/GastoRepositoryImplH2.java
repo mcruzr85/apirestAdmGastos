@@ -6,11 +6,13 @@ import com.javaupskilling.gastosapp.entities.Categoria;
 import com.javaupskilling.gastosapp.entities.Gasto;
 import com.javaupskilling.gastosapp.exceptions.DAOException;
 
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 
-import javax.swing.tree.RowMapper;
+//import javax.swing.tree.RowMapper;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +23,7 @@ import java.sql.Connection;
 @Repository
 public class GastoRepositoryImplH2 implements GastoRepository {
 
-    private static final String INSERT_INTO_EXPENSE = "INSERT INTO Expense (description, amount, date, category_id) VALUES (?, ?, ?, ?)";
+    private static final String INSERT_INTO_EXPENSE = "INSERT INTO Expense (description, amount, category_id, category_name,date) VALUES (?, ?, ?, ?, ?)";
     private static final String GET_ALL_EXPENSES = "SELECT * FROM Expense";
     private static final String GET_EXPENSE_BY_ID = "SELECT * FROM Expense WHERE id = ?";
     private static final String UPDATE_EXPENSE = "UPDATE Expense SET amount = ?, category_id =?, date = ? WHERE id = ? ";
@@ -46,12 +48,13 @@ public class GastoRepositoryImplH2 implements GastoRepository {
        Categoria categoria = jdbcTemplate.queryForObject(
                SELECT_FROM_EXPENSE_CATEGORY_BY_NAME,
                params, types,
-               new ExpenseCategoryRowMaper());
+               new CategoriaRowMapper());
        return jdbcTemplate.update(INSERT_INTO_EXPENSE,
                gasto.getDescripcion(),
                gasto.getValor(),
-               gasto.getFecha(),
-               categoria.getId());
+               categoria.getId(),
+               categoria.getNombre(),
+               gasto.getFecha());
        //update devuelve un entero con la cantidad de filas afectadas
     }
 
@@ -139,7 +142,7 @@ public class GastoRepositoryImplH2 implements GastoRepository {
             throw new DAOException("Error al obtener un asto dado un Id", e);
         }
     }*/
-static class CategoryRowMapper implements RowMapper<Categoria>{
+static class CategoriaRowMapper implements RowMapper<Categoria>{
     @Override
     public Categoria mapRow(ResultSet rs, int rowNum) throws SQLException{
         //Para mapear cada campo recuperado de la bd con la prop que corresponden a la entidad
@@ -150,6 +153,20 @@ static class CategoryRowMapper implements RowMapper<Categoria>{
         return categoria;
     }
 }
+
+
+    class GastoRowMapper implements RowMapper<Gasto> {
+        @Override
+        public Gasto mapRow(ResultSet rs, int rowNum) throws SQLException {
+            Gasto expense = new Gasto();
+            expense.setId((Long) rs.getLong("id"));
+            expense.setValor(rs.getDouble("amount"));
+            expense.setCategoriaId((int) rs.getLong("category_id"));
+            expense.setCategoriaNombre(rs.getString("category_name"));
+            expense.setFecha(rs.getString("date"));
+            return expense;
+        }
+    }
 }
 
 

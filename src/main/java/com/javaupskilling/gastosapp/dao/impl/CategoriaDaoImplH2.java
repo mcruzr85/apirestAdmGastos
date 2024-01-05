@@ -57,7 +57,7 @@ public class CategoriaDaoImplH2 implements CategoriaDao {
 
             ResultSet rs = ps.executeQuery();
            if(rs.next()){
-               Categoria newCategoria =  new Categoria(rs.getInt("id_cat") , rs.getString("nombre")) ;
+               Categoria newCategoria =  new Categoria(rs.getLong("id_cat") , rs.getString("nombre")) ;
                System.out.println(newCategoria.getId() + " " + newCategoria.getNombre());
                catDto = mapCategoriaToDto(newCategoria);
                System.out.println(catDto.getId() + " " + catDto.getNombre());

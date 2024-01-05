@@ -2,7 +2,7 @@ package com.javaupskilling.gastosapp.entities;
 
 public class Gasto {
     //incrementa el contador cada vez que se crea una instancia de GastoReal
-    private Integer id;
+    private Long id;
     private Integer categoriaId;
     private String categoriaNombre;
     private Double valor;
@@ -20,11 +20,11 @@ public class Gasto {
         this.descripcion = descripcion;
     }//constructor sin el id
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
