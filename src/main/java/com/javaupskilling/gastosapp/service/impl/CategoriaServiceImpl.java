@@ -7,6 +7,8 @@ import com.javaupskilling.gastosapp.exceptions.DAOException;
 import com.javaupskilling.gastosapp.service.CategoriaService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CategoriaServiceImpl implements CategoriaService {
 
@@ -28,7 +30,19 @@ public class CategoriaServiceImpl implements CategoriaService {
         return  response;
     }
 
-   Categoria mapRequestDtoToCategoria(CategoriaRequestDto categoriaRequestDto){
+
+    //pendiente convertir entidades a ResponseDto
+    @Override
+    public List<Categoria> getAll() throws DAOException {
+
+        List<Categoria> categorias = categoriaRepository.getAll();
+        if(categorias.isEmpty()){
+            throw new DAOException("No existen categorias");
+        }
+       return categorias;
+    }
+
+    Categoria mapRequestDtoToCategoria(CategoriaRequestDto categoriaRequestDto){
         Categoria categoria = new Categoria();
         categoria.setNombre(categoriaRequestDto.getNombre());
         return categoria;

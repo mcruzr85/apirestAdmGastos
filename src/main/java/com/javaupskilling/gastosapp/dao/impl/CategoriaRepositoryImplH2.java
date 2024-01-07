@@ -2,9 +2,12 @@ package com.javaupskilling.gastosapp.dao.impl;
 
 import com.javaupskilling.gastosapp.dao.CategoriaRepository;
 import com.javaupskilling.gastosapp.dao.dto.CategoriaDto;
+import com.javaupskilling.gastosapp.dao.model.CategoriaRowMapper;
 import com.javaupskilling.gastosapp.entities.Categoria;
 import com.javaupskilling.gastosapp.exceptions.DAOException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 
@@ -18,9 +21,11 @@ public class CategoriaRepositoryImplH2 implements CategoriaRepository {
 
     private static final String INSERT_INTO_CATEGORY = "INSERT INTO ExpenseCategory (name) VALUES (?)";
     private static final String GET_CATEGORY_BY_NAME = "SELECT * FROM ExpenseCategory WHERE name = ?";
+    private static final String GET_ALL_CATEGORY = "SELECT * FROM ExpenseCategory";
 
     private final JdbcTemplate jdbcTemplate;
 
+    @Autowired
     public CategoriaRepositoryImplH2(JdbcTemplate jdbcTemplate){
 
         this.jdbcTemplate = jdbcTemplate;
@@ -38,17 +43,19 @@ public class CategoriaRepositoryImplH2 implements CategoriaRepository {
     }
 
     @Override
-    public List<Categoria> getAll() {
-        return null;
+    public List<Categoria> getAll() throws DAOException{
+        List<Categoria> categorias = jdbcTemplate.query(
+                GET_ALL_CATEGORY, new CategoriaRowMapper());
+        return categorias;
     }
 
     @Override
-    public void update(Categoria categoria) {
+    public void update(Categoria categoria) throws DAOException{
 
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(int id) throws DAOException{
 
     }
 
@@ -93,6 +100,7 @@ public class CategoriaRepositoryImplH2 implements CategoriaRepository {
     public void delete(int id) {
 
     }*/
+
 
 
 

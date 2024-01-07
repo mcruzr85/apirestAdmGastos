@@ -2,10 +2,12 @@ package com.javaupskilling.gastosapp.dao.impl;
 
 import com.javaupskilling.gastosapp.dao.GastoRepository;
 
+import com.javaupskilling.gastosapp.dao.model.CategoriaRowMapper;
 import com.javaupskilling.gastosapp.entities.Categoria;
 import com.javaupskilling.gastosapp.entities.Gasto;
 import com.javaupskilling.gastosapp.exceptions.DAOException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
@@ -35,8 +37,8 @@ public class GastoRepositoryImplH2 implements GastoRepository {
     //generando una instancia de conexion que tiene que ser provista por otro obj
    private final JdbcTemplate jdbcTemplate;
 
+   @Autowired
     public GastoRepositoryImplH2(JdbcTemplate jdbcTemplate) {
-
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -46,7 +48,7 @@ public class GastoRepositoryImplH2 implements GastoRepository {
         Object[] params = {gasto.getCategoriaNombre()};
         int[] types = {1};
 
-        //para obtener esa categoria en la bd y obtener ese id
+        //para obtener esa categoria en la bd y luego obtener ese id
         Categoria categoria = jdbcTemplate.queryForObject(
                SELECT_FROM_EXPENSE_CATEGORY_BY_NAME,
                params, types,
@@ -145,7 +147,7 @@ public class GastoRepositoryImplH2 implements GastoRepository {
             throw new DAOException("Error al obtener un asto dado un Id", e);
         }
     }*/
-static class CategoriaRowMapper implements RowMapper<Categoria>{
+/*static class CategoriaRowMapper implements RowMapper<Categoria>{
     @Override
     public Categoria mapRow(ResultSet rs, int rowNum) throws SQLException{
         //Para mapear cada campo recuperado de la bd con la prop que corresponden a la entidad
@@ -156,7 +158,7 @@ static class CategoriaRowMapper implements RowMapper<Categoria>{
         return categoria;
     }
 }
-
+*/
 
     class GastoRowMapper implements RowMapper<Gasto> {
         @Override

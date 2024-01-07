@@ -16,13 +16,13 @@ public interface CategoriaRepository {
     Categoria getCategoryByName(String name) throws DAOException;
 
     //READ
-    List<Categoria> getAll();
+    List<Categoria> getAll() throws DAOException;
 
     //UPDATE
-    void update(Categoria categoria);
+    void update(Categoria categoria) throws DAOException;
 
     //DELETE
 
-    void delete(int id);
+    void delete(int id) throws DAOException;
 
 }
