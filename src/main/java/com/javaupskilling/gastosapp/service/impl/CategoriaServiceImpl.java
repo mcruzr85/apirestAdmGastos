@@ -5,7 +5,9 @@ import com.javaupskilling.gastosapp.dto.request.CategoriaRequestDto;
 import com.javaupskilling.gastosapp.entities.Categoria;
 import com.javaupskilling.gastosapp.exceptions.DAOException;
 import com.javaupskilling.gastosapp.service.CategoriaService;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CategoriaServiceImpl implements CategoriaService {
 
     private final CategoriaRepository categoriaRepository;

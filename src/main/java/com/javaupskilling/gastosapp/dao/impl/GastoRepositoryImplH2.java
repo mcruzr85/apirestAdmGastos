@@ -45,10 +45,13 @@ public class GastoRepositoryImplH2 implements GastoRepository {
         jdbcTemplate.update(INSERT_INTO_CATEGORY_EXPENSE, gasto.getCategoriaNombre().toLowerCase());
         Object[] params = {gasto.getCategoriaNombre()};
         int[] types = {1};
-       Categoria categoria = jdbcTemplate.queryForObject(
+
+        //para obtener esa categoria en la bd y obtener ese id
+        Categoria categoria = jdbcTemplate.queryForObject(
                SELECT_FROM_EXPENSE_CATEGORY_BY_NAME,
                params, types,
                new CategoriaRowMapper());
+
        return jdbcTemplate.update(INSERT_INTO_EXPENSE,
                gasto.getDescripcion(),
                gasto.getValor(),

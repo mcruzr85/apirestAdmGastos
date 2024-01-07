@@ -5,6 +5,7 @@ import com.javaupskilling.gastosapp.dao.dto.CategoriaDto;
 import com.javaupskilling.gastosapp.entities.Categoria;
 import com.javaupskilling.gastosapp.exceptions.DAOException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 
 
 import java.sql.Connection;
@@ -12,11 +13,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-
+@Repository
 public class CategoriaRepositoryImplH2 implements CategoriaRepository {
 
-    private static final String INSERT_INTO_CATEGORY = "INSERT INTO category (nombre) VALUES (?)";
-    private static final String GET_CATEGORY_BY_NAME = "SELECT * FROM category WHERE nombre = ?";
+    private static final String INSERT_INTO_CATEGORY = "INSERT INTO ExpenseCategory (name) VALUES (?)";
+    private static final String GET_CATEGORY_BY_NAME = "SELECT * FROM ExpenseCategory WHERE name = ?";
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -27,15 +28,8 @@ public class CategoriaRepositoryImplH2 implements CategoriaRepository {
     @Override
     public Integer insert(Categoria categoria) throws DAOException {
 
-        try{
-
-
-
-
-        }catch(SQLException | DAOException e){
-            assert e instanceof SQLException;
-            throw new DAOException("Error en el  Repository", (SQLException) e);  //propagando la excepcion
-        }
+       return jdbcTemplate.update(INSERT_INTO_CATEGORY, categoria.getNombre().toLowerCase());
+        //update devuelve un entero con la cantidad de filas afectadas
     }
 
     @Override
