@@ -21,6 +21,8 @@ public class CategoriaRepositoryImplH2 implements CategoriaRepository {
 
     private static final String INSERT_INTO_CATEGORY = "INSERT INTO ExpenseCategory (name) VALUES (?)";
     private static final String GET_CATEGORY_BY_NAME = "SELECT * FROM ExpenseCategory WHERE name = ?";
+    private static final String GET_CATEGORY_BY_ID = "SELECT * FROM ExpenseCategory WHERE id = ?";
+
     private static final String GET_ALL_CATEGORY = "SELECT * FROM ExpenseCategory";
 
     private final JdbcTemplate jdbcTemplate;
@@ -39,7 +41,17 @@ public class CategoriaRepositoryImplH2 implements CategoriaRepository {
 
     @Override
     public Categoria getCategoryByName(String name) throws DAOException {
-        return null;
+        Categoria categoria = jdbcTemplate.queryForObject(GET_CATEGORY_BY_NAME,
+                new Object[]{name}, new CategoriaRowMapper()
+        );
+        return categoria;
+    }
+
+    public Categoria getCategoryById(Long id) throws DAOException {
+        Categoria categoria = jdbcTemplate.queryForObject(GET_CATEGORY_BY_ID,
+                new Object[]{id}, new CategoriaRowMapper()
+        );
+        return categoria;
     }
 
     @Override
@@ -50,9 +62,13 @@ public class CategoriaRepositoryImplH2 implements CategoriaRepository {
     }
 
     @Override
-    public void update(Categoria categoria) throws DAOException{
+    public void update(Categoria categoria) throws DAOException {
 
     }
+
+    //In Spring, we can use jdbcTemplate.queryForObject() to query a
+    // single row record from database, and convert the row into an object via row mapper.
+
 
     @Override
     public void delete(int id) throws DAOException{

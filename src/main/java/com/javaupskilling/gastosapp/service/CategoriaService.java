@@ -9,4 +9,5 @@ import java.util.List;
 public interface CategoriaService {
     String createCategoria(CategoriaRequestDto categoriaRequestDto) throws DAOException;
     List<Categoria> getAll() throws DAOException;
+    Categoria getCategoriaById(Long id) throws DAOException;
 }

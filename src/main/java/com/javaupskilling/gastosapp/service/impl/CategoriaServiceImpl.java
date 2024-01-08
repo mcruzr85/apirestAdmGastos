@@ -42,6 +42,15 @@ public class CategoriaServiceImpl implements CategoriaService {
        return categorias;
     }
 
+    @Override
+    public Categoria getCategoriaById(Long id) throws DAOException {
+        Categoria categoria = categoriaRepository.getCategoryById(id);
+        if(categoria.getId().equals(0)){
+            throw new DAOException("No existe una categoria con ese Id");
+        }
+        return categoria;
+    }
+
     Categoria mapRequestDtoToCategoria(CategoriaRequestDto categoriaRequestDto){
         Categoria categoria = new Categoria();
         categoria.setNombre(categoriaRequestDto.getNombre());

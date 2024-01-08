@@ -38,4 +38,16 @@ public class CategoriaController {
      List<Categoria> response = categoriaService.getAll();
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
     }
+    @GetMapping("/{id}")
+    public ResponseEntity<Categoria> getCategoriaByIdHandler(@PathVariable("id") Long id) throws DAOException{
+      Categoria response = categoriaService.getCategoriaById(id);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
+    }
+    /**
+     * @PutMapping("/update/{id}")
+     * public int updateEmployee(@Valid @RequestBody Employee employee, @PathVariable("id") int id){
+     *    return employeeDao.updateEmployee(id,employee);
+     * }
+     */
+
 }

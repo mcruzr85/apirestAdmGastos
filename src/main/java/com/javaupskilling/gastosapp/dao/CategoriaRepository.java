@@ -14,6 +14,7 @@ public interface CategoriaRepository {
     //CREATE
     Integer insert(Categoria categoria) throws DAOException;
     Categoria getCategoryByName(String name) throws DAOException;
+    Categoria getCategoryById(Long id) throws DAOException;
 
     //READ
     List<Categoria> getAll() throws DAOException;

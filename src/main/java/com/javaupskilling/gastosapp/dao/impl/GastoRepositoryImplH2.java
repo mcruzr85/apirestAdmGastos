@@ -44,11 +44,14 @@ public class GastoRepositoryImplH2 implements GastoRepository {
 
     @Override
     public Integer insert(Gasto gasto) throws  DAOException{
-        jdbcTemplate.update(INSERT_INTO_CATEGORY_EXPENSE, gasto.getCategoriaNombre().toLowerCase());
+        //insertando la categoria
+       jdbcTemplate.update(INSERT_INTO_CATEGORY_EXPENSE, gasto.getCategoriaNombre().toLowerCase());
+
+
         Object[] params = {gasto.getCategoriaNombre()};
         int[] types = {1};
 
-        //para obtener esa categoria en la bd y luego obtener ese id
+        //para obtener esa categoria que acabamos de insertar en la bd y luego obtener ese id
         Categoria categoria = jdbcTemplate.queryForObject(
                SELECT_FROM_EXPENSE_CATEGORY_BY_NAME,
                params, types,
