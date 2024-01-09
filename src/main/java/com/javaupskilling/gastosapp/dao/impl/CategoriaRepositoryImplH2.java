@@ -22,8 +22,9 @@ public class CategoriaRepositoryImplH2 implements CategoriaRepository {
     private static final String INSERT_INTO_CATEGORY = "INSERT INTO ExpenseCategory (name) VALUES (?)";
     private static final String GET_CATEGORY_BY_NAME = "SELECT * FROM ExpenseCategory WHERE name = ?";
     private static final String GET_CATEGORY_BY_ID = "SELECT * FROM ExpenseCategory WHERE id = ?";
-
     private static final String GET_ALL_CATEGORY = "SELECT * FROM ExpenseCategory";
+    private static final String UPDATE_CATEGORY_BY_ID = "UPDATE ExpenseCategory SET name = ? WHERE id = ?";
+    private static final String DELETE_CATEGORY_BY_ID = "DELETE FROM ExpenseCategory WHERE id = ?";
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -47,9 +48,14 @@ public class CategoriaRepositoryImplH2 implements CategoriaRepository {
         return categoria;
     }
 
+    //In Spring, we can use jdbcTemplate.queryForObject() to query a
+    // single row record from database, and convert the row into an object via row mapper.
+
     public Categoria getCategoryById(Long id) throws DAOException {
-        Categoria categoria = jdbcTemplate.queryForObject(GET_CATEGORY_BY_ID,
-                new Object[]{id}, new CategoriaRowMapper()
+        Categoria categoria = jdbcTemplate.queryForObject(
+                GET_CATEGORY_BY_ID,
+                new CategoriaRowMapper(),
+                new Object[]{id}
         );
         return categoria;
     }
@@ -62,63 +68,18 @@ public class CategoriaRepositoryImplH2 implements CategoriaRepository {
     }
 
     @Override
-    public void update(Categoria categoria) throws DAOException {
-
-    }
-
-    //In Spring, we can use jdbcTemplate.queryForObject() to query a
-    // single row record from database, and convert the row into an object via row mapper.
-
-
-    @Override
-    public void delete(int id) throws DAOException{
-
+    public Integer update(Categoria categoria, Long id) throws DAOException {
+      return jdbcTemplate.update(UPDATE_CATEGORY_BY_ID ,
+              categoria.getNombre(),
+              id);
     }
 
 
-/*
+
     @Override
-    public Categoria getCategoryByName(String name) throws DAOException {
-
-        System.out.println("nombre de la categoria a buscar: " + name);
-
-        try( PreparedStatement ps = connection.prepareStatement(GET_CATEGORY_BY_NAME)){
-
-            ps.setString(1, name);
-
-            ResultSet rs = ps.executeQuery();
-           if(rs.next()){
-               Categoria newCategoria =  new Categoria(rs.getLong("id_cat") , rs.getString("nombre")) ;
-               System.out.println(newCategoria.getId() + " " + newCategoria.getNombre());
-               categoria = mapCategoriaToDto(newCategoria);
-               System.out.println(categoria.getId() + " " + categoria.getNombre());
-               return categoria;
-           }
-           return null;
-
-
-        }catch(SQLException e){
-            throw new RuntimeException(e);
-        }
+    public int delete(long id) throws DAOException{
+        return jdbcTemplate.update(DELETE_CATEGORY_BY_ID, new Object[]{id});
     }
-
-    @Override
-    public List<Categoria> getAll() {
-        return null;
-    }
-
-    @Override
-    public void update(Categoria categoria) {
-
-    }
-
-    @Override
-    public void delete(int id) {
-
-    }*/
-
-
-
 
 
 }

@@ -20,10 +20,10 @@ public interface CategoriaRepository {
     List<Categoria> getAll() throws DAOException;
 
     //UPDATE
-    void update(Categoria categoria) throws DAOException;
+    Integer update(Categoria categoria, Long id) throws DAOException;
 
     //DELETE
 
-    void delete(int id) throws DAOException;
+    int delete (long id) throws DAOException;
 
 }

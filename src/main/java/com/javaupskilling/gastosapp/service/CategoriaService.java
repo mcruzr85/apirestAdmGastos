@@ -10,4 +10,7 @@ public interface CategoriaService {
     String createCategoria(CategoriaRequestDto categoriaRequestDto) throws DAOException;
     List<Categoria> getAll() throws DAOException;
     Categoria getCategoriaById(Long id) throws DAOException;
+
+    String deleteCategoria(Long id) throws DAOException;
+    String updateCategoria(CategoriaRequestDto categoriaRequestDto, Long id) throws DAOException;
 }

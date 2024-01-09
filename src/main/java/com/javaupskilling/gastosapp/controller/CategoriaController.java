@@ -43,11 +43,19 @@ public class CategoriaController {
       Categoria response = categoriaService.getCategoriaById(id);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
     }
-    /**
-     * @PutMapping("/update/{id}")
-     * public int updateEmployee(@Valid @RequestBody Employee employee, @PathVariable("id") int id){
-     *    return employeeDao.updateEmployee(id,employee);
-     * }
-     */
 
-}
+    @PutMapping("/update/{id}")
+    public ResponseEntity<String> updateCategoriaHandler(@RequestBody CategoriaRequestDto categoriaRequestDto, @PathVariable("id") Long id) throws DAOException{
+      String response = categoriaService.updateCategoria(categoriaRequestDto, id);
+       return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
+     }
+
+    @GetMapping("/delete/{id}")
+    public ResponseEntity<String> deleteCategoriaHandler(@PathVariable("id") Long id) throws DAOException {
+        String response = categoriaService.deleteCategoria(id);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
+    }
+    }
+
+
+

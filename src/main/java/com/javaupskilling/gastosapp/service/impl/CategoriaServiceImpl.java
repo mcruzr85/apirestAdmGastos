@@ -27,7 +27,7 @@ public class CategoriaServiceImpl implements CategoriaService {
         if(cantAffectedRows.equals(0)){
             throw new DAOException("Error al insertar la categoria en la base de datos, 0 filas afectadas.");
         }
-        return  response;
+        return response;
     }
 
 
@@ -51,9 +51,34 @@ public class CategoriaServiceImpl implements CategoriaService {
         return categoria;
     }
 
+    @Override
+    public String deleteCategoria(Long id) throws DAOException {
+
+            String response = "Categoría eliminada con éxito";
+            Integer affectedRows = categoriaRepository.delete(id);
+            if(affectedRows.equals(0)){
+                throw new DAOException("No se pudo eliminar esa categoria, no existe ese Id");
+            }
+            return response;
+    }
+
+    @Override
+    public String updateCategoria(CategoriaRequestDto categoriaRequestDto, Long id) throws DAOException {
+        String response = "Categoría actualizada con éxito";
+
+        Categoria categoria = mapRequestDtoToCategoria(categoriaRequestDto);
+
+        Integer affectedRows = categoriaRepository.update(categoria, id);
+        //si devuelve 0 no hubo filas afectadas o actualizadas
+        if(affectedRows.equals(0)) throw new DAOException("No se pudo actualizar la categoria");
+        return response;
+    }
+
+
     Categoria mapRequestDtoToCategoria(CategoriaRequestDto categoriaRequestDto){
         Categoria categoria = new Categoria();
         categoria.setNombre(categoriaRequestDto.getNombre());
+        categoria.setId(categoriaRequestDto.getId());
         return categoria;
    }
 }
