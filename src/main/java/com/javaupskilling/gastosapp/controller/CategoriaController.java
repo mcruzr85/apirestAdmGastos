@@ -2,6 +2,7 @@ package com.javaupskilling.gastosapp.controller;
 
 
 import com.javaupskilling.gastosapp.dto.request.CategoriaRequestDto;
+import com.javaupskilling.gastosapp.dto.response.CategoriaResponseDto;
 import com.javaupskilling.gastosapp.entities.Categoria;
 import com.javaupskilling.gastosapp.exceptions.DAOException;
 import com.javaupskilling.gastosapp.service.CategoriaService;
@@ -34,13 +35,13 @@ public class CategoriaController {
     }
 
    @GetMapping
-    public ResponseEntity<List<Categoria>> getAllCategoriaHandler() throws DAOException{
-     List<Categoria> response = categoriaService.getAll();
+    public ResponseEntity<List<CategoriaResponseDto>> getAllCategoriaHandler() throws DAOException{
+     List<CategoriaResponseDto> response = categoriaService.getAll();
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
     }
     @GetMapping("/{id}")
-    public ResponseEntity<Categoria> getCategoriaByIdHandler(@PathVariable("id") Long id) throws DAOException{
-      Categoria response = categoriaService.getCategoriaById(id);
+    public ResponseEntity<CategoriaResponseDto> getCategoriaByIdHandler(@PathVariable("id") Long id) throws DAOException{
+      CategoriaResponseDto response = categoriaService.getCategoriaById(id);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
     }
 

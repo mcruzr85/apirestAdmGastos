@@ -1,7 +1,6 @@
 package com.javaupskilling.gastosapp.dao.impl;
 
 import com.javaupskilling.gastosapp.dao.CategoriaRepository;
-import com.javaupskilling.gastosapp.dao.dto.CategoriaDto;
 import com.javaupskilling.gastosapp.dao.model.CategoriaRowMapper;
 import com.javaupskilling.gastosapp.entities.Categoria;
 import com.javaupskilling.gastosapp.exceptions.DAOException;
@@ -23,7 +22,7 @@ public class CategoriaRepositoryImplH2 implements CategoriaRepository {
     private static final String GET_CATEGORY_BY_NAME = "SELECT * FROM ExpenseCategory WHERE name = ?";
     private static final String GET_CATEGORY_BY_ID = "SELECT * FROM ExpenseCategory WHERE id = ?";
     private static final String GET_ALL_CATEGORY = "SELECT * FROM ExpenseCategory";
-    private static final String UPDATE_CATEGORY_BY_ID = "UPDATE ExpenseCategory SET name = ? WHERE id = ?";
+    private static final String UPDATE_CATEGORY= "UPDATE ExpenseCategory SET name = ? WHERE id = ?";
     private static final String DELETE_CATEGORY_BY_ID = "DELETE FROM ExpenseCategory WHERE id = ?";
 
     private final JdbcTemplate jdbcTemplate;
@@ -60,6 +59,7 @@ public class CategoriaRepositoryImplH2 implements CategoriaRepository {
         return categoria;
     }
 
+
     @Override
     public List<Categoria> getAll() throws DAOException{
         List<Categoria> categorias = jdbcTemplate.query(
@@ -69,7 +69,7 @@ public class CategoriaRepositoryImplH2 implements CategoriaRepository {
 
     @Override
     public Integer update(Categoria categoria, Long id) throws DAOException {
-      return jdbcTemplate.update(UPDATE_CATEGORY_BY_ID ,
+      return jdbcTemplate.update(UPDATE_CATEGORY,
               categoria.getNombre(),
               id);
     }

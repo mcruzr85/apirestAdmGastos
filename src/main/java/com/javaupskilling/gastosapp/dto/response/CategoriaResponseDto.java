@@ -1,13 +1,14 @@
-package com.javaupskilling.gastosapp.dao.dto;
+package com.javaupskilling.gastosapp.dto.response;
 
-public class CategoriaDto {
+public class CategoriaResponseDto {
     private Long id;
     private String nombre;
+    public CategoriaResponseDto() {
 
-    public CategoriaDto() {
     }
 
-    public CategoriaDto(Long id, String nombre) {
+
+    public CategoriaResponseDto(Long id, String nombre) {
         this.id = id;
         this.nombre = nombre;
     }
@@ -27,6 +28,4 @@ public class CategoriaDto {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-
-
 }

@@ -1,7 +1,6 @@
 package com.javaupskilling.gastosapp.interfaces;
 
-
-import com.javaupskilling.gastosapp.dao.dto.GastoDto;
+import com.javaupskilling.gastosapp.dto.request.GastoRequestDto;
 import com.javaupskilling.gastosapp.entities.Gasto;
 
 import java.util.List;
@@ -11,7 +10,7 @@ public interface GastoOperations {
     //toda la clase que implemente esta interfaz va a poder usar estos comportamientos
 
     double calculateGasto(Gasto gasto);
-    double calculateTotalGastos(List<GastoDto> gasto);
+    double calculateTotalGastos(List<GastoRequestDto> gasto);
 
 
     /*public abstract void addGasto(Gasto gasto);

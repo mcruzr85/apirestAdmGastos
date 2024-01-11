@@ -47,11 +47,19 @@ public class GastoRepositoryImplH2 implements GastoRepository {
         //insertando la categoria
        jdbcTemplate.update(INSERT_INTO_CATEGORY_EXPENSE, gasto.getCategoriaNombre().toLowerCase());
 
-
         Object[] params = {gasto.getCategoriaNombre()};
         int[] types = {1};
 
         //para obtener esa categoria que acabamos de insertar en la bd y luego obtener ese id
+
+        //queryForObject recibe una query dinamica y los parametros que le paso a la query,
+        // es un array de Objects
+        //defino cual es el parametro que yo quiero pasar en esa query, en este caso el name
+        //lo siguiente que le paso es un array de enteros
+        //que define los tipos de datos que le estoy pasando, en este caso 1 pq es un parametro
+        //defino un mapper para que mappee cada campo recuperado de la bd
+        //con las propiedades que corresponden a la entidad
+
         Categoria categoria = jdbcTemplate.queryForObject(
                SELECT_FROM_EXPENSE_CATEGORY_BY_NAME,
                params, types,

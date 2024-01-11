@@ -1,6 +1,6 @@
 package com.javaupskilling.gastosapp.dao;
 
-import com.javaupskilling.gastosapp.dao.dto.GastoDto;
+
 import com.javaupskilling.gastosapp.entities.Gasto;
 import com.javaupskilling.gastosapp.exceptions.DAOException;
 
